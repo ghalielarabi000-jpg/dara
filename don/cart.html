@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLFAC﻿TIF — Cart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Cairo";
+  background:linear-gradient(135deg,#DFDDD1,#cfcbbf);
+  color:#262A18;
+}
+header{
+  background:linear-gradient(90deg,#262A18,#454F2C);
+  color:#DFDDD1;
+  padding:16px 26px;
+  display:flex;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.grid{
+  max-width:1200px;
+  margin:40px auto;
+  padding:0 16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
+}
+.card{
+  background:#DFDDD1;
+  border-radius:28px;
+  padding:18px;
+  box-shadow:0 25px 60px rgba(0,0,0,.25);
+  opacity:0;
+  transform:translateY(40px);
+  animation:cardIn .8s forwards;
+}
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:20px;
+}
+.price,.quantity{font-weight:900;color:#713519}
+.cart-total{
+  max-width:1200px;
+  margin:20px auto;
+  padding:16px;
+  background:#262A18;
+  color:#DFDDD1;
+  border-radius:20px;
+  font-weight:900;
+}
+.order-btn{
+  width:220px;
+  padding:12px;
+  margin:20px auto;
+  display:block;
+  font-weight:900;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  background:#262A18;
+  color:#DFDDD1;
+  transition:.3s;
+}
+.order-btn:hover{transform:scale(1.05)}
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:99;
+}
+.modal-content{
+  background:#DFDDD1;
+  padding:26px;
+  border-radius:24px;
+  width:100%;
+  max-width:420px;
+  animation:fadeUp .4s ease;
+}
+.modal-content input{
+  width:100%;
+  padding:12px;
+  margin-bottom:12px;
+  border-radius:12px;
+  border:none;
+}
+.submit-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  background:#25D366;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+
+<body>
+
+<header>
+  <strong>OLFAC﻿TIF</strong>
+</header>
+
+<div class="grid" id="cartGrid"></div>
+<div class="cart-total" id="cartTotal">المجموع: 0 د.م</div>
+
+<button class="order-btn" id="openForm">إتمام الطلب</button>
+
+<div class="modal" id="orderModal">
+  <div class="modal-content">
+    <input id="cPhone" placeholder="رقم الهاتف">
+    <input id="fName" placeholder="الإسم">
+    <input id="lName" placeholder="النسب">
+    <input id="city" placeholder="المدينة">
+    <input id="area" placeholder="الحي">
+    <button class="submit-btn" id="confirmOrder">تأكيد الطلب</button>
+  </div>
+</div>
+
+<script>
+// DELIVERY PRICE
+const livraison = 35;
+
+// CART
+let cart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+function renderCart(){
+  const grid = document.getElementById("cartGrid");
+  let total = 0;
+  grid.innerHTML = "";
+
+  for(let k in cart){
+    let i = cart[k];
+    total += i.price * i.qty;
+    grid.innerHTML += `
+      <div class="card">
+        <h4>${k}</h4>
+        <div class="price">${i.price} د.م</div>
+        <div class="quantity">الكمية: ${i.qty}</div>
+      </div>`;
+  }
+  const totalWithLivraison = total + livraison;
+  document.getElementById("cartTotal").textContent =
+    `المجموع: ${total} د.م + توصيل: ${livraison} د.م = ${totalWithLivraison} د.م`;
+}
+renderCart();
+
+// MODAL
+const modal = document.getElementById("orderModal");
+document.getElementById("openForm").onclick = ()=> modal.style.display="flex";
+modal.onclick = e => { if(e.target===modal) modal.style.display="none"; };
+
+// SEND TO WHATSAPP
+document.getElementById("confirmOrder").onclick = function(){
+
+  if(Object.keys(cart).length === 0){
+    alert("السلة فارغة");
+    return;
+  }
+
+  const phone = document.getElementById("cPhone").value.trim();
+  const fn = document.getElementById("fName").value.trim();
+  const ln = document.getElementById("lName").value.trim();
+  const c  = document.getElementById("city").value.trim();
+  const a  = document.getElementById("area").value.trim();
+
+  if(!phone || !fn || !ln || !c || !a){
+    alert("المرجو ملء جميع المعلومات");
+    return;
+  }
+
+  let msg =
+`🛍️ طلب جديد – OLFAC﻿TIF
+
+👤 ${fn} ${ln}
+📞 ${phone}
+📍 ${c} - ${a}
+
+🧾 تفاصيل الطلب:
+`;
+
+  let total = 0;
+  for(let k in cart){
+    let i = cart[k];
+    total += i.price * i.qty;
+    msg += `• ${k} | ${i.qty} × ${i.price} د.م\n`;
+  }
+
+  const totalWithLivraison = total + livraison;
+  msg += `\n💰 المجموع: ${total} د.م\n💸 التوصيل: ${livraison} د.م\n✅ المجموع الكلي: ${totalWithLivraison} د.م`;
+
+  const number = "212715631140";
+  location.href = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+};
+</script>
+
+</body>
+</html>

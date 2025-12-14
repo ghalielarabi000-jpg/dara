@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLFAC﻿TIF PARFUMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Cairo";
+  background:linear-gradient(135deg,#DFDDD1,#cfcbbf);
+  color:#262A18;
+  overflow-x:hidden;
+}
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0; width:100%;
+  background:linear-gradient(90deg,#262A18,#454F2C);
+  color:#DFDDD1;
+  padding:16px 26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:100;
+}
+nav a{
+  color:#DFDDD1;
+  text-decoration:none;
+  margin:0 12px;
+  font-weight:700;
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  animation:fadeIn 1.8s ease;
+}
+.hero h1{
+  font-family:"Playfair Display";
+  font-size:64px;
+  color:#713519;
+  letter-spacing:4px;
+  animation:slideUp 1.6s ease;
+}
+.hero p{
+  font-size:20px;
+  margin-top:16px;
+  opacity:0;
+  animation:fadeIn 2.2s forwards;
+}
+.hero a{
+  margin-top:40px;
+  padding:16px 40px;
+  background:#713519;
+  color:#DFDDD1;
+  text-decoration:none;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:1px;
+  box-shadow:0 20px 40px rgba(0,0,0,.3);
+  transform:scale(0.9);
+  animation:pop 1.4s forwards;
+}
+
+@keyframes slideUp{
+  from{transform:translateY(40px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes pop{
+  to{transform:scale(1)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <strong>OLFAC﻿TIF</strong>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="shop.html">المتجر</a>
+    <a href="cart.html">السلة</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>OLFAC﻿TIF PARFUMS</h1>
+  <p>عالم الفخامة • الثبات • التميز</p>
+  <a href="shop.html">اكتشف العطور</a>
+</section>
+
+</body>
+</html>

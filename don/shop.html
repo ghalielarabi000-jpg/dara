@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLFAC﻿TIF — Shop</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Cairo";
+  background:linear-gradient(135deg,#DFDDD1,#cfcbbf);
+  color:#262A18;
+}
+header{
+  background:linear-gradient(90deg,#262A18,#454F2C);
+  color:#DFDDD1;
+  padding:16px 26px;
+  display:flex;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+nav a{
+  color:#DFDDD1;
+  text-decoration:none;
+  margin:0 12px;
+  font-weight:700;
+}
+.grid{
+  max-width:1200px;
+  margin:40px auto 120px;
+  padding:0 16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
+}
+.card{
+  background:#DFDDD1;
+  border-radius:28px;
+  padding:18px;
+  box-shadow:0 25px 60px rgba(0,0,0,.25);
+  transform:translateY(40px);
+  opacity:0;
+  animation:cardIn .9s forwards;
+}
+.card:nth-child(n){animation-delay:calc(var(--i) * .12s)}
+.card:hover{transform:translateY(-10px) scale(1.04);}
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:20px;
+}
+.card h4{
+  font-family:"Playfair Display";
+  margin:16px 0 6px;
+}
+.price{
+  font-weight:900;
+  color:#713519;
+}
+button{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  font-weight:900;
+  cursor:pointer;
+  background:#454F2C;
+  color:#DFDDD1;
+}
+.cart-summary{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:#262A18;
+  color:#DFDDD1;
+  padding:16px 22px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  font-weight:800;
+  line-height:1.6;
+}
+.cart-summary a{
+  display:block;
+  margin-top:8px;
+  text-align:center;
+  background:#713519;
+  color:#DFDDD1;
+  padding:10px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:900;
+}
+@keyframes cardIn{
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <strong>OLFAC﻿TIF</strong>
+  <nav>
+    <a href="index.html">الرَّئِيسِيَّة</a>
+    <a href="shop.html">المَتْجَر</a>
+    <a href="cart.html">السَّلَّة</a>
+  </nav>
+</header>
+
+<div class="grid" id="shop"></div>
+
+<div class="cart-summary">
+  العَنَاصِر: <span id="count">0</span><br>
+  المَجْمُوع: <span id="sum">0</span> د.م
+  <a href="cart.html">الذَّهَابُ إِلَى السَّلَّة 🛒</a>
+</div>
+
+<script src="shop.js"></script>
+</body>
+</html>
